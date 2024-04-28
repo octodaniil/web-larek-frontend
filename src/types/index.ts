@@ -1,5 +1,5 @@
 // Интерфейс модели товара
-interface IProduct {
+export interface IProduct {
   id: string;
   title: string;
   description: string;
@@ -9,13 +9,13 @@ interface IProduct {
 }
 
 // Интерфейс модели списка товаров
-interface IProductList {
+export interface IProductList {
   total: number;
   items: IProduct[];
 }
 
 // Интерфейс модели заказа
-interface IOrder {
+export interface IOrder {
   payment: string;
   email: string;
   phone: string;
@@ -25,7 +25,7 @@ interface IOrder {
 }
 
 // Презентер товара
-interface IProductPresenter {
+export interface IProductPresenter {
   // Получить список товаров
   getProductList(): void;
   // Получить детали о товаре по его ID
@@ -33,7 +33,7 @@ interface IProductPresenter {
 }
 
 // Презентер корзины
-interface ICartPresenter {
+export interface ICartPresenter {
   // Добавить товар в корзину
   addToCart(product: IProduct): void;
   // Удалить товар из корзины по его ID
@@ -43,13 +43,13 @@ interface ICartPresenter {
 }
 
 // Презентер оформления заказа
-interface IOrderPresenter {
+export interface IOrderPresenter {
   // Отправить заказ на сервер
   submitOrder(order: IOrder): void;
 }
 
 // Представление каталога товаров
-interface IProductCatalogView {
+export interface IProductCatalogView {
   // Отобразить список товаров
   showProductList(productList: IProductList): void;
   // Отобразить детали о товаре
@@ -57,7 +57,7 @@ interface IProductCatalogView {
 }
 
 // Представление корзины
-interface ICartView {
+export interface ICartView {
   // Отобразить товары в корзине
   showCartItems(order: IOrder): void;
   // Показать окно оформления заказа
@@ -65,7 +65,7 @@ interface ICartView {
 }
 
 // Представление оформления заказа
-interface IOrderPopupView {
+export interface IOrderPopupView {
   // Показать доступные способы оплаты
   showPaymentMethods(): void;
   // Показать форму для ввода информации о заказе
@@ -75,7 +75,7 @@ interface IOrderPopupView {
 }
 
 // Представление подтверждения заказа
-interface IOrderConfirmationPopupView {
+export interface IOrderConfirmationPopupView {
   // Показать сообщение о подтверждении заказа
   showConfirmationMessage(): void;
 }

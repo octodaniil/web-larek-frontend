@@ -1,3 +1,5 @@
+import { API_URL } from "../../utils/constants";
+
 export type ApiListResponse<Type> = {
     total: number,
     items: Type[]
@@ -40,3 +42,5 @@ export class Api {
         }).then(this.handleResponse);
     }
 }
+
+export const apiConst = new Api(API_URL);
