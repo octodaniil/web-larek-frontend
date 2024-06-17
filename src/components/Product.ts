@@ -25,16 +25,21 @@ export class Product extends Component<IProduct> {
     );
   }
 
+  formatNumber(num: number): string {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  }
+
   render(productData: Partial<IProduct> | undefined) {
     if (!productData) return this.container;
     const { title, price, ...otherProductData } = productData;
     if (title) this.title = `${title}`;
-    if (price) this.price = price;
+    this.price = price
     return super.render(otherProductData);
   }
 
   set category(category: string) {
     this.productCategory.textContent = category;
+    
   }
 
   set title(title: string) {
@@ -46,12 +51,13 @@ export class Product extends Component<IProduct> {
     this.productImage.alt = this.title;
   }
 
-  set price(price: number) {
+  set price(price: number | null) {
     if (price) {
       this.productPrice.textContent = `${price} синапсов`;
     } else {
       this.productPrice.textContent = 'Бесценно';
     }
+
   }
 
   set id(id: string) {
