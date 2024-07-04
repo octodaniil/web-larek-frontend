@@ -5,10 +5,9 @@ import { IEvents } from "./base/events";
 export class ProductsData implements IProductsData {
   protected _products: IProduct[];
   protected _preview: string | null;
-  protected events: IEvents;
   productsData: Promise<IProduct[]>;
 
-  constructor(events: IEvents) {
+  constructor(protected events: IEvents) {
     this.events = events;
   }
 
