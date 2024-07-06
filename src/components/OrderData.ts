@@ -21,12 +21,8 @@ export class OrderData implements IOrderData {
 
   setOrderForm(fieldAndValue: { field: string; value: string }) {
     const { field, value } = fieldAndValue;
-    switch (field) {
-      case 'address':
-        this.address = value;
-        break;
-      default:
-        break;
+    if (field === 'address') {
+      this.address = value;
     }
 
     if (this.validateOrderForm()) {
@@ -35,13 +31,12 @@ export class OrderData implements IOrderData {
   }
 
   validateOrderForm() {
-    const errors: typeof this.Errors = {
+    this.Errors = {
       address: !this.address ? 'Укажите адрес' : '',
       payment: !this.payment ? 'Выберите способ оплаты' : '',
     };
-    this.Errors = errors;
     this.events.emit('errors:orderForm', this.Errors);
-    return Object.keys(errors).length === 0;
+    return Object.keys(this.Errors).length === 0;
   }
 
   setContactForm(fieldAndValue: { field: string; value: string }) {
@@ -62,7 +57,7 @@ export class OrderData implements IOrderData {
 
   validateContactForm(): boolean {
     const regexpEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    const regexpPhone = /^(\+7|7|8)?\d{11,12}$/;
+    const regexpPhone = /^((8|\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d\- ]{7,10}$/;
 
     this.Errors = {
       email: this.email ? (regexpEmail.test(this.email) ? null : 'Некорректный адрес электронной почты') : 'Укажите email',

@@ -41,11 +41,6 @@ const orderData = new OrderData(events);
 const order = new OrderForm(cloneTemplate(orderTemplate), events);
 const contactsForm = new ContactsForm(cloneTemplate(contactsTemplate), events);
 
-
-// events.onAll((event) => {
-//   console.log(event.eventName, event.data)
-// })
-
 api.getProducts()
   .then((res) => {
     productsData.products = res;
@@ -80,9 +75,14 @@ events.on('modal:close', () => {
 
 events.on('product:buy', (data: { product: IProduct }) => {
   const { product } = data;
-  basketData.addSelectedProduct(productsData.getProduct(product.id));
-  basket.updateBasketCounter(basketData.getCounter());
-  modal.close();
+  if (basketData.basketProducts.some((item) => item.id === product.id)) {
+    modal.close();
+    return;
+  } else {
+    basketData.addSelectedProduct(productsData.getProduct(product.id));
+    basket.updateBasketCounter(basketData.getCounter());
+    modal.close();
+  }
 });
 
 events.on('basket:open', () => {
@@ -98,7 +98,7 @@ events.on('basket:open', () => {
   modal.render();
 });
 
-events.on('product:remove', (productId: { id: string}) => {
+events.on('product:remove', (productId: { id: string }) => {
   basketData.removeProductFromBasket(productId.id);
   basket.updateBasketCounter(basketData.getCounter());
   basket.setTotalSum(basketData.getTotalSum());
@@ -118,7 +118,10 @@ events.on('order:open', () => {
   orderData.items = basketData.basketProducts.map(item => item.id);
 });
 
-events.on('order:payment', (button: HTMLButtonElement) => { orderData.payment = button.name })
+events.on('order:payment', (button: HTMLButtonElement) => {
+  orderData.payment = button.name;
+  orderData.validateOrderForm();
+})
 
 events.on('order:address', (fieldAdnValue: { field: string, value: string }) => {
   orderData.setOrderForm(fieldAdnValue);

@@ -1,7 +1,7 @@
 import { IProduct } from "../types";
 import { Component } from "./base/Component";
 import { IEvents } from "./base/events";
-import { formatNumber } from "../utils/utils";
+import { formatNumber, ensureElement } from "../utils/utils";
 
 
 export class Product extends Component<IProduct> {
@@ -24,21 +24,19 @@ export class Product extends Component<IProduct> {
     super(container)
     this.events = events;
 
-    this.productCategory = this.container.querySelector('.card__category');
-    this.productTitle = this.container.querySelector('.card__title');
-    this.productImage = this.container.querySelector('.card__image');
-    this.productPrice = this.container.querySelector('.card__price');
+    this.productCategory = ensureElement<HTMLSpanElement>('.card__category', this.container);
+    this.productTitle = ensureElement<HTMLElement>('.card__title', this.container);
+    this.productImage = ensureElement<HTMLImageElement>('.card__image', this.container);
+    this.productPrice = ensureElement<HTMLSpanElement>('.card__price', this.container);
     this.productDescription = this.container.querySelector('.card__text');
     this.buyButton = this.container.querySelector('.card__button');
 
     if (this.buyButton != null) {
       this.buyButton.addEventListener('click', () =>
-        this.events.emit('product:buy', { product: this })
-      );
+        this.events.emit('product:buy', { product: this }))
     } else {
       this.container.addEventListener('click', () =>
-        this.events.emit('product:select', { product: this })
-      );
+        this.events.emit('product:select', { product: this }))
     }
   }
 

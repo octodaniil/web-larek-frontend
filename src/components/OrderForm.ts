@@ -1,4 +1,5 @@
 import { IOrderForm } from "../types";
+import { ensureElement } from "../utils/utils";
 import { Component } from "./base/Component";
 import { IEvents } from "./base/events";
 
@@ -9,9 +10,9 @@ export class OrderForm extends Component<IOrderForm> {
 
   constructor(protected container: HTMLElement, protected events: IEvents) {
     super(container)
-    this.orderButton = this.container.querySelector('.order__button');
+    this.orderButton = ensureElement<HTMLButtonElement>('.order__button', this.container);
     this.buttons = Array.from(this.container.querySelectorAll('.button_alt'));
-    this.errors = this.container.querySelector('.form__errors');
+    this.errors = ensureElement<HTMLElement>('.form__errors', this.container);
 
     this.buttons.forEach(button => {
       button.addEventListener('click', () => {
